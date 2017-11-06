@@ -12,10 +12,9 @@ function submitdata()
     data = data.replace("}\"", "}");
     console.log(data);
 
-    var tabCount = "&emsp;";
+    var tabs = "";
 
     var openBracket = "{";
-    var tab = "&emsp";
     var newLine = "\n";
     var quote = "\"";
 
@@ -29,8 +28,8 @@ function submitdata()
         if(character == '{') 
         {
             stackBracket.push(character);
-            tabCount = tabCount.concat("&emsp;");
-            result = result.concat(character + newLine + tabCount);
+            tabs = tabs.concat("&emsp;");
+            result = result.concat(character + newLine + tabs);
         } else if (character == '}') 
         {
             if (stackBracket.length == 0) 
@@ -39,8 +38,8 @@ function submitdata()
                 return;
             }
             stackBracket.pop();
-            tabCount = tabCount.substr(0, tabCount.length-6);
-            result = result.concat(character + newLine + tabCount);
+            tabs = tabs.substr(0, tabs.length-6);
+            result = result.concat(newLine + tabs + character);
         } else if (character == '\"') 
         {
             if (stackQuotes.length > 0) 
@@ -51,8 +50,14 @@ function submitdata()
             }
             result = result.concat(quote);
         } else if (stackQuotes.length == 0 && (character == ' ') || (character == ' \t') || (character == '\n')) {
-            //skip character
-            character = "";
+            //add space for neatness (convert tabs/new lines into empty string)
+            if (data.indexOf(index-1) == ':') 
+            {
+                result.concat(' ');
+            }
+
+        } else if (stackQuotes.length == 0 && (character == ',')) {
+            result = result.concat(character + newLine + tabs);
         } else {
             result = result.concat(character);
         }
