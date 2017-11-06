@@ -51,3 +51,11 @@ footer {
 		display: inline;
     }
 }
+
+.variableName {
+    color: red;
+}
+
+.valueOfVar {
+    color: green;
+}
