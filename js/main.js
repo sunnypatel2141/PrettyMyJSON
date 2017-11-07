@@ -110,14 +110,16 @@ function submitdata()
             
             result = result.concat(character);
         } else {
-            if (stackColon.length > 0) {
-                var temp = green.replace("?", character);
-                domObject.innerHTML += temp;
-                result = result.concat(character);
-            } else {
-                var temp = blue.replace("?", character);
-                domObject.innerHTML += temp;
-                result = result.concat(character);
+            if (character != '\n') {
+                if (stackColon.length > 0) { 
+                    var temp = green.replace("?", character);
+                    domObject.innerHTML += temp;
+                    result = result.concat(character);
+                } else {
+                    var temp = blue.replace("?", character);
+                    domObject.innerHTML += temp;
+                    result = result.concat(character);
+                }
             }
         }
     }
@@ -125,5 +127,5 @@ function submitdata()
         alert ('Incorrect format. Check for colon, quotes and brackets.');
         return;
     } 
-    //document.getElementById('result').style.border = "solid black";
+    document.getElementById('result').style.display = "inline-block";
 }
