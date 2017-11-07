@@ -13,11 +13,17 @@
     <!-- <p> Enter JSON Here: </p> -->
 
     <form>
-        <textarea rows="17" cols="50" placeholder="Enter JSON here..." id="textarea"></textarea>
-        <button type="button" onclick="submitdata()">Submit</button>
+        <textarea rows="17" cols="50" placeholder="Enter JSON here..." 
+        id="textarea" style="overflow: auto; word-wrap: break-word; resize: none;"></textarea>
+        <p id="result"></p>
+        <button type="button" onclick="submitdata()">Pretty Me!</button>
     </form>
 
-    <p id="result"></p>
+    <script>
+        $(document).ready(function(){
+            $('#text').autosize();
+        });
+    </script>
 
 </body>
 <footer>

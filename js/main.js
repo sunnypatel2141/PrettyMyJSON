@@ -2,6 +2,11 @@ function submitdata()
 {
     //data.replace('/\t+/','');
     var text = document.getElementById("textarea").value;
+    if (text.length == 0) {
+        return;
+    }
+
+    //not needed for coloring, but used for indexing
     var result = "";
 
     var data = JSON.stringify(text);
@@ -24,8 +29,7 @@ function submitdata()
     var stackBracket = [];
     var stackQuotes = [];
     var stackColon = [];
-
-    var individual;
+    var globalStack = [];
 
     var black = "<span style='color:black'>?</span>";
     var green = "<span style='color:#793e62'>?</span>";
@@ -38,31 +42,41 @@ function submitdata()
         
         if(character == '{' || (character == '[')) 
         {
+            // empty out stack colon (colors)
             stackColon = [];
             stackBracket.push(character);
+            globalStack.push(character);
+
             tabs = tabs.concat("&emsp;");
             var temp = black.replace("?", character + newLine + tabs);
             domObject.innerHTML += temp;
+
+            //for indexing (not needed for DOM coloring)
             result = result.concat(character + newLine + tabs);
         } else if (character == '}' || (character == ']')) 
         {
-            if (stackBracket.length == 0) 
+            if (globalStack.length == 0) 
             {
                 alert('Incorrect format. Check if each opening bracket has a closing bracket.');
                 return;
             }
             stackBracket.pop();
+            globalStack.pop();
+
             tabs = tabs.substr(0, tabs.length-6);
             var temp = black.replace("?", newLine + tabs + character);
             domObject.innerHTML += temp;
+
             result = result.concat(newLine + tabs + character);
         } else if (character == '\"') 
         {
             if (stackQuotes.length > 0) 
             {
                 stackQuotes.pop();
+                globalStack.pop();
             } else {
                 stackQuotes.push('\"');
+                globalStack.push('\"');
             }
             if (stackColon.length == 0) {
                 var temp = blue.replace("?", quote);
@@ -71,6 +85,7 @@ function submitdata()
                 var temp = green.replace("?", quote);
                 domObject.innerHTML += temp;
             }
+
             result = result.concat(quote);
         } else if (stackQuotes.length == 0 && (character == ' ') || (character == ' \t') || (character == '\n')) {
             //add space for neatness (convert tabs/new lines into empty string)
@@ -92,6 +107,7 @@ function submitdata()
             }
             var temp = blue.replace("?", character);
             domObject.innerHTML += temp;
+            
             result = result.concat(character);
         } else {
             if (stackColon.length > 0) {
@@ -105,9 +121,9 @@ function submitdata()
             }
         }
     }
-    if (stackBracket.length > 0 || stackQuotes.length > 0 || stackColon.length > 0) {
+    if (globalStack.length > 0) {
         alert ('Incorrect format. Check for colon, quotes and brackets.');
         return;
-    }
-    document.getElementById('result').style.border = "solid black";
+    } 
+    //document.getElementById('result').style.border = "solid black";
 }
