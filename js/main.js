@@ -25,14 +25,24 @@ function submitdata()
     var stackQuotes = [];
     var stackColon = [];
 
+    var individual;
+
+    var black = "<span style='color:black'>?</span>";
+    var green = "<span style='color:#793e62'>?</span>";
+    var blue = "<span style='color:#4161a0'>?</span>";
+    var domObject = document.getElementById('result');
+
     for (var index = 0; index < data.length; index++) 
     {
         var character = data.charAt(index);
         
         if(character == '{' || (character == '[')) 
         {
+            stackColon = [];
             stackBracket.push(character);
             tabs = tabs.concat("&emsp;");
+            var temp = black.replace("?", character + newLine + tabs);
+            domObject.innerHTML += temp;
             result = result.concat(character + newLine + tabs);
         } else if (character == '}' || (character == ']')) 
         {
@@ -43,6 +53,8 @@ function submitdata()
             }
             stackBracket.pop();
             tabs = tabs.substr(0, tabs.length-6);
+            var temp = black.replace("?", newLine + tabs + character);
+            domObject.innerHTML += temp;
             result = result.concat(newLine + tabs + character);
         } else if (character == '\"') 
         {
@@ -52,37 +64,50 @@ function submitdata()
             } else {
                 stackQuotes.push('\"');
             }
+            if (stackColon.length == 0) {
+                var temp = blue.replace("?", quote);
+                domObject.innerHTML += temp;
+            } else {
+                var temp = green.replace("?", quote);
+                domObject.innerHTML += temp;
+            }
             result = result.concat(quote);
         } else if (stackQuotes.length == 0 && (character == ' ') || (character == ' \t') || (character == '\n')) {
             //add space for neatness (convert tabs/new lines into empty string)
             if (result.charAt(result.length-1) == ':') 
             {
+                domObject.innerHTML += ' ';
                 result = result.concat(' ');
             }
-        } else if (stackQuotes.length == 0 && (character == ',')) {
+        } else if (stackQuotes.length == 0 && character == ',') {
+            stackColon = [];
+            var temp = black.replace("?", character + newLine + tabs);
+            domObject.innerHTML += temp;
             result = result.concat(character + newLine + tabs);
-        } else if (character == ":") {
+        } else if (stackQuotes.length == 0 && character == ":") {
             if (stackColon.length > 0) {
-                stackColon.push(":");
-            } else {
                 stackColon.pop();
+            } else {
+                stackColon.push(":");
             }
+            var temp = blue.replace("?", character);
+            domObject.innerHTML += temp;
+            result = result.concat(character);
         } else {
             if (stackColon.length > 0) {
+                var temp = green.replace("?", character);
+                domObject.innerHTML += temp;
+                result = result.concat(character);
+            } else {
+                var temp = blue.replace("?", character);
+                domObject.innerHTML += temp;
                 result = result.concat(character);
             }
-            result = result.concat(character);
         }
     }
     if (stackBracket.length > 0 || stackQuotes.length > 0 || stackColon.length > 0) {
         alert ('Incorrect format. Check for colon, quotes and brackets.');
         return;
     }
-
-    var mySpan = document.createElement('span');
-    mySpan.innerHTML = result;
-    mySpan.style.color = "#ff0000";
-    document.getElementById('myContainer').appendChild(mySpan);
-
-//    document.getElementById("result").innerHTML = result;
+    document.getElementById('result').style.border = "solid black";
 }

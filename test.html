@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p id = "dom">I'm black!</p>
+
+	<script>
+		var black = document.getElementById("dom").innerHTML;
+		var green = "<span style='color:red'>" + black + "</span>";
+		document.getElementById('dom').innerHTML += green + "<br>" + "Hi";
+
+	</script>
+
+</body>
+</html>
