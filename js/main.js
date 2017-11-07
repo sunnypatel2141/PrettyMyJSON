@@ -109,17 +109,20 @@ function submitdata()
             domObject.innerHTML += temp;
             
             result = result.concat(character);
+        } else if (stackQuotes.length == 0 && character == '\\') {
+            if (data.charAt(index+1) == 'n' || data.charAt(index+1) == 't') {
+                index++;
+                //do nothing to dom or result
+            }
         } else {
-            if (character != '\n') {
-                if (stackColon.length > 0) { 
-                    var temp = green.replace("?", character);
-                    domObject.innerHTML += temp;
-                    result = result.concat(character);
-                } else {
-                    var temp = blue.replace("?", character);
-                    domObject.innerHTML += temp;
-                    result = result.concat(character);
-                }
+            if (stackColon.length > 0) {
+                var temp = green.replace("?", character);
+                domObject.innerHTML += temp;
+                result = result.concat(character);
+            } else {
+                var temp = blue.replace("?", character);
+                domObject.innerHTML += temp;
+                result = result.concat(character);
             }
         }
     }
