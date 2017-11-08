@@ -108,7 +108,7 @@ function parseData(character) {
         //add space for neatness (convert tabs/new lines into empty string)
         if (localOutput.charAt(localOutput.length-1) == ':') 
         {
-            localOutput = localOutput.concat(' ');
+            localOutput = localOutput.concat(' </span>');
         }
     } else if (stackQuotes.length == 0 && character == ',') {
         stackColon = [];
@@ -140,12 +140,8 @@ function parseData(character) {
 }
 
 function savedatafile() {
-    console.log("1");
     var text = document.getElementById("result").innerHTML;
-    console.log("2");
     var filename = "prettydata";
-    console.log("3");
-    var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-    console.log("4");
-    saveAs(blob, filename+".txt");
+    var blob = new Blob([text], {type: "text/html"});
+    saveAs(blob, filename+".html");
 }
