@@ -2,6 +2,8 @@ function submitdata()
 {
     //data.replace('/\t+/','');
     var text = document.getElementById("textarea").value;
+    document.getElementById("result").innerHTML = "";
+
     if (text.length == 0) {
         return;
     }
