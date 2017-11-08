@@ -21,6 +21,7 @@ function submitdata()
     //data.replace('/\t+/','');
     var text = document.getElementById("textarea").value;
     document.getElementById("result").innerHTML = "";
+    localOutput = "";
 
     domObject = document.getElementById("result");
 
@@ -57,7 +58,7 @@ function submitdata()
         alert ('Incorrect format. Check for colon, quotes and brackets.');
         return;
     }
-    //document.getElementById('result').style.display = "inline-block";
+    document.getElementById('result').style.display = "inline-block";
 }
 
 function parseData(character) {
