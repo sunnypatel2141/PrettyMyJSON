@@ -10,9 +10,9 @@ var stackQuotes = [];
 var stackColon = [];
 var globalStack = [];
 
-var black = "<span id='blackcolor'>?</span>";
-var green = "<span id='greencolor'>?</span>";
-var blue = "<span id='bluecolor'>?</span>";
+var black = "<span id='blackcolor'>?";
+var green = "<span id='greencolor'>?";
+var blue = "<span id='bluecolor'>?";
 
 var domObject, data;
 
@@ -83,9 +83,10 @@ function parseData(character) {
         stackBracket.pop();
         globalStack.pop();
 
+        //adjust tab string to rid \t
         tabs = tabs.substr(0, tabs.length-6);
         var temp = black.replace("?", newLine + tabs + character);
-        localOutput = localOutput.concat(temp);
+        localOutput = localOutput.concat(temp + "</span>");
     } else if (character == '\"') 
     {
         if (stackQuotes.length > 0) 
@@ -97,10 +98,10 @@ function parseData(character) {
             globalStack.push('\"');
         }
         if (stackColon.length == 0) {
-            var temp = blue.replace("?", quote);
+            var temp = "</span>" + blue.replace("?", quote);
             localOutput = localOutput.concat(temp);
         } else {
-            var temp = green.replace("?", quote);
+            var temp = "</span>" + green.replace("?", quote);
             localOutput = localOutput.concat(temp);
         }
     } else if (stackQuotes.length == 0 && (character == ' ') || (character == ' \t') || (character == '\n')) {
@@ -119,8 +120,8 @@ function parseData(character) {
         } else {
             stackColon.push(":");
         }
-        var temp = blue.replace("?", character);
-        localOutput = localOutput.concat(temp);
+        //var temp = blue.replace("?", character);
+        localOutput = localOutput.concat(character);
     } else if (stackQuotes.length == 0 && character == '\\') {
         if (data.charAt(index+1) == 'n' || data.charAt(index+1) == 't') {
             index++;
@@ -128,11 +129,11 @@ function parseData(character) {
         }
     } else {
         if (stackColon.length > 0) {
-            var temp = green.replace("?", character);
-            localOutput = localOutput.concat(temp);
+            //var temp = green.replace("?", character);
+            localOutput = localOutput.concat(character);
         } else {
-            var temp = blue.replace("?", character);
-            localOutput = localOutput.concat(temp);
+            //var temp = blue.replace("?", character);
+            localOutput = localOutput.concat(character);
         }
     }
     return localOutput;
