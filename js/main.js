@@ -51,14 +51,13 @@ function submitdata()
     var new_time = new Date();
     var seconds_passed = new_time - old_time;
 
-    console.log(seconds_passed);
+    console.log("Time elapsed: " + seconds_passed);
 
     if (globalStack.length > 0) {
         alert ('Incorrect format. Check for colon, quotes and brackets.');
         return;
     }
-    console.log("HEY" + document.getElementById("result").innerHTML);
-    document.getElementById('result').style.display = "inline-block";
+    //document.getElementById('result').style.display = "inline-block";
 }
 
 function parseData(character) {
@@ -132,7 +131,7 @@ function parseData(character) {
             //var temp = green.replace("?", character);
             localOutput = localOutput.concat(character);
         } else {
-            //var temp = blue.replace("?", character);
+            var temp = blue.replace("?", character);
             localOutput = localOutput.concat(character);
         }
     }

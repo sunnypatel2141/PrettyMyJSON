@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="FileSaver.js-master/FileSaver.js"></script>
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <title>Pretty JSON</title>
 
 </head>
 <body>
+
+<div class="container-fluid">
+
     <h2 style="color:white">Pretty JSON</h2>
 
-    <form>
-        <textarea rows="17" cols="50" placeholder="Enter JSON here..." 
-        id="textarea" style="overflow: auto; word-wrap: break-word; resize: none;"></textarea>
-        <p id="result"></p>
-        <button type="button" onclick="submitdata()">Pretty Me!</button>
-    </form>
-    <form>
-        <button type="button" onclick="savedatafile()">Save to file</button>
-    </form>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <textarea rows="10" cols="20" placeholder="Enter JSON here..." 
+            id="textarea" style="overflow: auto; word-wrap: break-word; resize: none;"></textarea>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <p id="result" style="overflow: auto; word-wrap: break-word; resize: none"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <button type="button" onclick="submitdata()">Pretty Me!</button>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <button type="button" onclick="savedatafile()">Save to file</button>
+        </div>
+    </div>
+</div>
 
 </body>
 <footer>
