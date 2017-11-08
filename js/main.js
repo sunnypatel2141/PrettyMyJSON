@@ -1,4 +1,4 @@
-//not needed for coloring, but used for indexing
+//for coloring
 var localOutput = "";
 
 var tabs = "";
@@ -10,9 +10,9 @@ var stackQuotes = [];
 var stackColon = [];
 var globalStack = [];
 
-var black = "<span style='color:black'>?</span>";
-var green = "<span style='color:#793e62'>?</span>";
-var blue = "<span style='color:#4161a0'>?</span>";
+var black = "<span id='blackcolor'>?</span>";
+var green = "<span id='greencolor'>?</span>";
+var blue = "<span id='bluecolor'>?</span>";
 
 var domObject, data;
 
@@ -44,7 +44,8 @@ function submitdata()
     {
         var character = data.charAt(index);
 
-        parseData(character);
+        var parsedDom = parseData(character);
+        domObject.innerHTML = parsedDom;
         //var t = setTimeout(parseData(character),0);
     }
     var new_time = new Date();
@@ -71,10 +72,7 @@ function parseData(character) {
 
         tabs = tabs.concat("&emsp;");
         var temp = black.replace("?", character + newLine + tabs);
-        domObject.innerHTML += temp;
-
-        //for indexing (not needed for DOM coloring)
-        localOutput = localOutput.concat(character + newLine + tabs);
+        localOutput = localOutput.concat(temp);
     } else if (character == '}' || (character == ']')) 
     {
         if (globalStack.length == 0) 
@@ -87,9 +85,7 @@ function parseData(character) {
 
         tabs = tabs.substr(0, tabs.length-6);
         var temp = black.replace("?", newLine + tabs + character);
-        domObject.innerHTML += temp;
-
-        localOutput = localOutput.concat(newLine + tabs + character);
+        localOutput = localOutput.concat(temp);
     } else if (character == '\"') 
     {
         if (stackQuotes.length > 0) 
@@ -102,25 +98,21 @@ function parseData(character) {
         }
         if (stackColon.length == 0) {
             var temp = blue.replace("?", quote);
-            domObject.innerHTML += temp;
+            localOutput = localOutput.concat(temp);
         } else {
             var temp = green.replace("?", quote);
-            domObject.innerHTML += temp;
+            localOutput = localOutput.concat(temp);
         }
-
-        localOutput = localOutput.concat(quote);
     } else if (stackQuotes.length == 0 && (character == ' ') || (character == ' \t') || (character == '\n')) {
         //add space for neatness (convert tabs/new lines into empty string)
         if (localOutput.charAt(localOutput.length-1) == ':') 
         {
-            domObject.innerHTML += ' ';
             localOutput = localOutput.concat(' ');
         }
     } else if (stackQuotes.length == 0 && character == ',') {
         stackColon = [];
         var temp = black.replace("?", character + newLine + tabs);
-        domObject.innerHTML += temp;
-        localOutput = localOutput.concat(character + newLine + tabs);
+        localOutput = localOutput.concat(temp);
     } else if (stackQuotes.length == 0 && character == ":") {
         if (stackColon.length > 0) {
             stackColon.pop();
@@ -128,9 +120,7 @@ function parseData(character) {
             stackColon.push(":");
         }
         var temp = blue.replace("?", character);
-        domObject.innerHTML += temp;
-        
-        localOutput = localOutput.concat(character);
+        localOutput = localOutput.concat(temp);
     } else if (stackQuotes.length == 0 && character == '\\') {
         if (data.charAt(index+1) == 'n' || data.charAt(index+1) == 't') {
             index++;
@@ -139,14 +129,13 @@ function parseData(character) {
     } else {
         if (stackColon.length > 0) {
             var temp = green.replace("?", character);
-            domObject.innerHTML += temp;
-            localOutput = localOutput.concat(character);
+            localOutput = localOutput.concat(temp);
         } else {
             var temp = blue.replace("?", character);
-            domObject.innerHTML += temp;
-            localOutput = localOutput.concat(character);
+            localOutput = localOutput.concat(temp);
         }
     }
+    return localOutput;
 }
 
 function savedatafile() {
