@@ -16,6 +16,8 @@ var blue = "<span style=\"color:#4161a0\">?";
 
 var domObject, data;
 
+var index;
+
 function submitdata() 
 {
     //data.replace('/\t+/','');
@@ -41,11 +43,11 @@ function submitdata()
     data = data.replace("]\"", "]");
 
     var old_time = new Date();
-    for (var index = 0; index < data.length; index++) 
+    for (index = 0; index < data.length; index++) 
     {
         var character = data.charAt(index);
 
-        var parsedDom = parseData(character, index);
+        var parsedDom = parseData(character);
         domObject.innerHTML = parsedDom;
         //var t = setTimeout(parseData(character),0);
     }
@@ -61,7 +63,7 @@ function submitdata()
     document.getElementById('result').style.display = "inline-block";
 }
 
-function parseData(character, index) {
+function parseData(character) {
 
     if(character == '{' || (character == '[')) 
     {
@@ -110,6 +112,11 @@ function parseData(character, index) {
         {
             localOutput = localOutput.concat(' </span>');
         }
+    } else if (stackQuotes.length != 0 && (character == '\\')) {
+        if (data.charAt(index+1) == 'n' || data.charAt(index+1) == 't') {    
+            localOutput = localOutput.concat(newLine + tabs);
+            index++;
+        }
     } else if (stackQuotes.length == 0 && character == ',') {
         stackColon = [];
         var temp = black.replace("?", character + newLine + tabs);
@@ -140,6 +147,10 @@ function parseData(character, index) {
 }
 
 function savedatafile() {
+    if (localOutput.length == 0) {
+        alert('No JSON data to save...');
+        return;
+    }
     var text = localOutput;
     var filename = "prettydata";
     var blob = new Blob([text], {type: "text/html"});
