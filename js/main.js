@@ -10,9 +10,9 @@ var stackQuotes = [];
 var stackColon = [];
 var globalStack = [];
 
-var black = "<span id='blackcolor'>?";
-var green = "<span id='greencolor'>?";
-var blue = "<span id='bluecolor'>?";
+var black = "<span style=\"color:black\">?";
+var green = "<span style=\"color:#793e62\">?";
+var blue = "<span style=\"color:#4161a0\">?";
 
 var domObject, data;
 
@@ -45,7 +45,7 @@ function submitdata()
     {
         var character = data.charAt(index);
 
-        var parsedDom = parseData(character);
+        var parsedDom = parseData(character, index);
         domObject.innerHTML = parsedDom;
         //var t = setTimeout(parseData(character),0);
     }
@@ -61,7 +61,7 @@ function submitdata()
     document.getElementById('result').style.display = "inline-block";
 }
 
-function parseData(character) {
+function parseData(character, index) {
 
     if(character == '{' || (character == '[')) 
     {
@@ -140,7 +140,7 @@ function parseData(character) {
 }
 
 function savedatafile() {
-    var text = document.getElementById("result").innerHTML;
+    var text = localOutput;
     var filename = "prettydata";
     var blob = new Blob([text], {type: "text/html"});
     saveAs(blob, filename+".html");
