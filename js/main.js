@@ -10,7 +10,6 @@ var stackQuotes = [];
 var stackColon = [];
 var globalStack = [];
 
-var black = "<span style=\"color:black\">?";
 var green = "<span style=\"color:#793e62\">?";
 var blue = "<span style=\"color:#4161a0\">?";
 
@@ -73,7 +72,8 @@ function parseData(character) {
         globalStack.push(character);
 
         tabs = tabs.concat("&emsp;");
-        var temp = black.replace("?", character + newLine + tabs);
+        // var temp = black.replace("?", character + newLine + tabs);
+        var temp = character + newLine + tabs;
         localOutput = localOutput.concat(temp);
     } else if (character == '}' || (character == ']')) 
     {
@@ -87,8 +87,9 @@ function parseData(character) {
 
         //adjust tab string to rid \t
         tabs = tabs.substr(0, tabs.length-6);
-        var temp = black.replace("?", newLine + tabs + character);
-        localOutput = localOutput.concat(temp + "</span>");
+        // var temp = black.replace("?", newLine + tabs + character);
+        var temp = newLine + tabs + character;
+        localOutput = localOutput.concat("</span>" + temp);
     } else if (character == '\"') 
     {
         if (stackQuotes.length > 0) 
@@ -119,7 +120,8 @@ function parseData(character) {
         }
     } else if (stackQuotes.length == 0 && character == ',') {
         stackColon = [];
-        var temp = black.replace("?", character + newLine + tabs);
+        // var temp = black.replace("?", character + newLine + tabs);
+        var temp = character + newLine + tabs;
         localOutput = localOutput.concat(temp);
     } else if (stackQuotes.length == 0 && character == ":") {
         if (stackColon.length > 0) {
